@@ -3,7 +3,8 @@ guid: cf953a945c1454bc0bd6e5cba3a433f5
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - rotatingCube: {fileID: 806439174654448338, guid: 0f05293e1f6a04b2ea6aab63b54dcd3e, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
