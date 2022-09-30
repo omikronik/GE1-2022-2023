@@ -20,7 +20,7 @@ public class CenterPoint : MonoBehaviour
             Vector3 spawnPos = transform.position + new Vector3(x, 0, z);
 
             float angle = -rad*Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.Euler(0, angle, 0);
+            Quaternion rotation = Quaternion.Euler(-90, angle, 0);
             Instantiate(rotatingCube, spawnPos, rotation);
         }
     }
