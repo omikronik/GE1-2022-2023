@@ -13,6 +13,9 @@ public class CenterPoint : MonoBehaviour
 
     public List<GameObject> Amoguses = new List<GameObject>();
 
+    public Color oldColor;
+    public Color newColor;
+
     public void GenerateCubes(int numOfObjects, float centerOffset)
     {
         for (int i = 0; i < numOfObjects; i++)
@@ -31,13 +34,31 @@ public class CenterPoint : MonoBehaviour
         }
     }
 
+    public Color GenerateRandColor() {
+        return Color.HSVToRGB(Random.Range(0.0f, 1.0f), 1f, 1f);
+    }
+
     public void RandomizeColor() {
         var randColor = Color.HSVToRGB(Random.Range(0.0f, 1.0f), 1f, 1f);
 
         foreach (var Amogus in Amoguses)
         {
-            Amogus.GetComponent<Renderer>().material.color = randColor;
+            Amogus.GetComponent<Renderer>().material.color = oldColor;
         }
+    }
+
+    public void LerpColor() {
+        for (int i = 1; i < 11; i++) {
+            var lerpedCoefficient = Color.Lerp(oldColor, newColor, i / 10.0f);
+            Debug.Log($"{i / 10.0f}");
+            foreach (var Amogus in Amoguses)
+            {
+                Amogus.GetComponent<Renderer>().material.color = lerpedCoefficient;
+            }
+        }
+        // COROUTine look up
+        oldColor = newColor;
+        newColor = GenerateRandColor();
     }
 
     // Start is called before the first frame update
@@ -46,12 +67,16 @@ public class CenterPoint : MonoBehaviour
         for (int i = 1; i < RingCount+1; i++) {
             GenerateCubes(6 * i, CenterOffset * i);
         }
+
+        oldColor = GenerateRandColor();
+        newColor = GenerateRandColor();
         
-        InvokeRepeating("RandomizeColor", 0.5f, 1.0f);
+        InvokeRepeating("LerpColor", 0.5f, 1.0f);
     }
 
     // Update is called once per frame
     void Update()
     {
+        
     }
 }
