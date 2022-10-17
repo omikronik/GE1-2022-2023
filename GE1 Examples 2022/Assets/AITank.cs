@@ -22,6 +22,21 @@ public class AITank : MonoBehaviour {
             // You can draw gizmos using
             // Gizmos.color = Color.green;
             // Gizmos.DrawWireSphere(pos, 1);
+            
+            var theta = (2 * Mathf.PI) / numWaypoints;
+
+            for (int i = 0; i > numWaypoints; i++)
+            {
+                Vector3 pos = new Vector3(
+                    Mathf.Sin(theta * i),
+                    Mathf.Cos(theta * i),
+                    0
+                );
+
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(pos, 1);
+
+            }
         }
     }
 
