@@ -14,6 +14,7 @@ public class AITank : MonoBehaviour {
 
     public void OnDrawGizmos()
     {
+        /*
         if (!Application.isPlaying)
         {
             // Task 1
@@ -33,10 +34,31 @@ public class AITank : MonoBehaviour {
                     0
                 );
 
-                Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(pos, 1);
-
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(pos, 5.0f);
             }
+        }*/
+        // Task 1
+        // Put code here to draw the gizmos
+        // Use sin and cos to calculate the positions of the waypoints 
+        // You can draw gizmos using
+        // Gizmos.color = Color.green;
+        // Gizmos.DrawWireSphere(pos, 1);
+        Gizmos.DrawWireSphere(transform.position, 3.0f);
+
+        var theta = (2 * Mathf.PI) / numWaypoints;
+
+        for (int i = 0; i > numWaypoints; i++)
+        {
+            Vector3 pos = new Vector3(
+                Mathf.Sin(theta * i),
+                Mathf.Cos(theta * i),
+                0
+            );
+            GameManager.Log($"pos{i}, {pos.x} {pos.y} {pos.z}");
+
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(pos, 5.0f);
         }
     }
 
