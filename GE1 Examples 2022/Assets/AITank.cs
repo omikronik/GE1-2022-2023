@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class AITank : MonoBehaviour {
@@ -10,7 +11,10 @@ public class AITank : MonoBehaviour {
     public int current = 0;
     public List<Vector3> waypoints;
     public float speed = 10;
-    public Transform player;    
+    public Transform player;
+    public Text playerBehind;
+    public Text playerInFov;
+    public Text info;
 
     void SetUpWayponts()
     {
@@ -32,32 +36,7 @@ public class AITank : MonoBehaviour {
     }
     public void OnDrawGizmos()
     {
-        /*
-        if (!Application.isPlaying)
-        {
-            // Task 1
-            // Put code here to draw the gizmos
-            // Use sin and cos to calculate the positions of the waypoints 
-            // You can draw gizmos using
-            // Gizmos.color = Color.green;
-            // Gizmos.DrawWireSphere(pos, 1);
-            
-            var theta = (2 * Mathf.PI) / numWaypoints;
-
-            for (int i = 0; i > numWaypoints; i++)
-            {
-                Vector3 pos = new Vector3(
-                    Mathf.Sin(theta * i),
-                    Mathf.Cos(theta * i),
-                    0
-                );
-
-                Gizmos.color = Color.green;
-                Gizmos.DrawWireSphere(pos, 5.0f);
-            }
-        }*/
-        // Task 1
-        // Put code here to draw the gizmos
+        // Task 1 Put code here to draw the gizmos
         // Use sin and cos to calculate the positions of the waypoints 
         // You can draw gizmos using
         // Gizmos.color = Color.green;
@@ -71,9 +50,7 @@ public class AITank : MonoBehaviour {
 
     // Use this for initialization
     void Awake () {
-        // Task 2
-        // Put code here to calculate the waypoints in a loop and 
-        // Add them to the waypoints List
+
     }
 
     // Update is called once per frame
@@ -81,13 +58,6 @@ public class AITank : MonoBehaviour {
         // Task 3
         // Put code here to move the tank towards the next waypoint
         // When the tank reaches a waypoint you should advance to the next one
-
-
-        // Task 4
-        // Put code here to check if the player is in front of or behine the tank
-        // Task 5
-        // Put code here to calculate if the player is inside the field of view and in range
-        // You can print stuff to the screen using:
         float dist = Vector3.Distance(transform.position, waypoints[current]);
         if (dist < 1.0f)
         {
@@ -95,5 +65,33 @@ public class AITank : MonoBehaviour {
         }
         transform.LookAt(waypoints[current]);
         transform.Translate(0, 0, speed * Time.deltaTime);
+
+        // Task 4
+        // Put code here to check if the player is in front of or behine the tank
+        Vector3 playerDirection = transform.position - player.position;
+        float angleToPlayer = Vector3.Angle(transform.forward, playerDirection);
+
+        if (Mathf.Abs(angleToPlayer) < 90)
+        {
+            playerBehind.text = "Player is behind";
+        }
+        else
+        {
+            playerBehind.text = "Player is in front";
+        }
+
+        if ((Mathf.Abs(angleToPlayer) > 157.5f) && (Mathf.Abs(angleToPlayer) < 202.5f) && (Vector3.Distance(transform.position, player.position) < 10)) {
+            playerInFov.text = "Player is in Fov and range";
+        }
+        else
+        {
+            playerInFov.text = "Player is not in Fov or range";
+        }
+
+        info.text = Mathf.Abs(angleToPlayer).ToString();
+
+        // Task 5
+        // Put code here to calculate if the player is inside the field of view and in range
+        // You can print stuff to the screen using:
     }
 }
