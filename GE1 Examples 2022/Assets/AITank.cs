@@ -88,6 +88,12 @@ public class AITank : MonoBehaviour {
         // Task 5
         // Put code here to calculate if the player is inside the field of view and in range
         // You can print stuff to the screen using:
-        
+        float dist = Vector3.Distance(transform.position, waypoints[current]);
+        if (dist < 1.0f)
+        {
+            current = (current + 1) % waypoints.Count;
+        }
+        transform.LookAt(waypoints[current]);
+        transform.Translate(0, 0, speed * Time.deltaTime);
     }
 }
