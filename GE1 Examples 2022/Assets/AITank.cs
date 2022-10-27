@@ -8,10 +8,28 @@ public class AITank : MonoBehaviour {
     public float radius = 10;
     public int numWaypoints = 5;
     public int current = 0;
-    List<Vector3> waypoints = new List<Vector3>();
+    public List<Vector3> waypoints;
     public float speed = 10;
     public Transform player;    
 
+    void SetUpWayponts()
+    {
+        waypoints = new List<Vector3>();
+        waypoints.Clear();
+        float theta = (Mathf.PI * 2.0f) / (float) numWaypoints;
+
+        for(int i = 0; i < numWaypoints; i++)
+        {
+            float angle = i * theta;
+            Vector3 p = new Vector3(
+                        Mathf.Sin(angle) * radius,
+                        0,
+                        Mathf.Cos(angle) * radius
+                    );
+            p = transform.TransformPoint(p);
+            waypoints.Add(p);
+        }
+    }
     public void OnDrawGizmos()
     {
         /*
@@ -44,21 +62,10 @@ public class AITank : MonoBehaviour {
         // You can draw gizmos using
         // Gizmos.color = Color.green;
         // Gizmos.DrawWireSphere(pos, 1);
-        Gizmos.DrawWireSphere(transform.position, 3.0f);
-
-        var theta = (2 * Mathf.PI) / numWaypoints;
-
-        for (int i = 0; i > numWaypoints; i++)
+        SetUpWayponts();
+        foreach(Vector3 waypoint in waypoints)
         {
-            Vector3 pos = new Vector3(
-                Mathf.Sin(theta * i),
-                Mathf.Cos(theta * i),
-                0
-            );
-            GameManager.Log($"pos{i}, {pos.x} {pos.y} {pos.z}");
-
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(pos, 5.0f);
+            Gizmos.DrawWireSphere(waypoint, 1);
         }
     }
 
@@ -81,6 +88,6 @@ public class AITank : MonoBehaviour {
         // Task 5
         // Put code here to calculate if the player is inside the field of view and in range
         // You can print stuff to the screen using:
-        GameManager.Log("Hello from th AI tank");
+        
     }
 }
