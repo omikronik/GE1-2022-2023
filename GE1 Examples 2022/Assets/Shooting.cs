@@ -24,20 +24,21 @@ public class Shooting : MonoBehaviour
             bullet.GetComponent<AudioSource>().Play();
 
             yield return new WaitForSeconds(1 / (float)fireRate);
+            Debug.Log("Coroutine is being fired");
         }
     }
     public void Shoot(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started && shootCR == null)
+        if (Input.GetButtonDown("a"))
         {
             shootCR = StartCoroutine(ShootCoroutine());
         }
-        if (context.phase == InputActionPhase.Canceled)
+        
+        if (Input.GetButtonUp("a"))
         {
             StopCoroutine(shootCR);
             shootCR = null;
         }
-
 
         //Debug.Log(context.performed);
     }
