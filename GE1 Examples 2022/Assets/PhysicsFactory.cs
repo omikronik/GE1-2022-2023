@@ -5,8 +5,17 @@ public class PhysicsFactory : MonoBehaviour {
 
     public LayerMask groundLM;
     public GameObject wormPrefab;
+
+    public GameObject towerPoint;
+
     void CreateTower(float radius, int height, int segments, Vector3 point)
     {
+        float spacing = 360f / (float)segments;
+        for (int i = 1; i < segments + 1; i++)
+        {
+            GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            go.transform.RotateAround(towerPoint.tranform.position, Vector3.forward, spacing*i);
+        }
     }
 
     

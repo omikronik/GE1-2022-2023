@@ -14,7 +14,7 @@ public class MyCoin2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -23,14 +23,5 @@ public class MyCoin2 : MonoBehaviour
     
     void Update()
     {
-        if (transform.position.y < 0.5f)
-        {
-            rb.isKinematic = true;
-        }        
-        else
-        {
-            timeAcc += Time.deltaTime;
-            speed = rb.velocity.magnitude;
-        }
     }
 }
