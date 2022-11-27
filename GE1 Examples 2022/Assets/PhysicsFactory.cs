@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PhysicsFactory : MonoBehaviour {
+public class PhysicsFactory : MonoBehaviour
+{
 
     public LayerMask groundLM;
-    public GameObject wormPrefab;
-
     public GameObject towerPoint;
+    public GameObject wormPrefab;
 
     void CreateTower(float radius, int height, int segments, Vector3 point)
     {
@@ -14,11 +14,11 @@ public class PhysicsFactory : MonoBehaviour {
         for (int i = 1; i < segments + 1; i++)
         {
             GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            go.transform.RotateAround(towerPoint.tranform.position, Vector3.forward, spacing*i);
+            go.transform.RotateAround(point, Vector3.up, spacing * i);
         }
     }
 
-    
+
 
     void CreateWorm(Vector3 point, Quaternion q)
     {
@@ -65,11 +65,11 @@ public class PhysicsFactory : MonoBehaviour {
         {
             GameObject wheel = CreateCylinder(
                 wheelPosition.x
-                ,wheelPosition.y
-                ,wheelPosition.z
-                ,wheelDiameter
-                ,wheelWidth
-                ,q
+                , wheelPosition.y
+                , wheelPosition.z
+                , wheelDiameter
+                , wheelWidth
+                , q
             );
             HingeJoint hinge = wheel.AddComponent<HingeJoint>();
             hinge.connectedBody = chassis.GetComponent<Rigidbody>();
@@ -77,15 +77,16 @@ public class PhysicsFactory : MonoBehaviour {
             hinge.anchor = Vector3.up;
             hinge.autoConfigureConnectedAnchor = true;
         }
-        
-        
+
+
         return chassis;
-       
-    }   
+
+    }
 
 
     // Use this for initialization
-    void Start () {       
+    void Start()
+    {
     }
 
     GameObject CreateGear(float x, float y, float z, float diameter, int numCogs)
@@ -97,16 +98,16 @@ public class PhysicsFactory : MonoBehaviour {
         float thetaInc = (Mathf.PI * 2.0f) / numCogs;
         for (int i = 0; i < numCogs; i++)
         {
-            
+
             float theta = thetaInc * i;
             Vector3 cogPos = new Vector3();
             cogPos.x = x + (Mathf.Sin(theta) * radius);
-            cogPos.y = y + (Mathf.Cos(theta) * radius);  
+            cogPos.y = y + (Mathf.Cos(theta) * radius);
             cogPos.z = z;
 
             // Make the cog rotation
-            Quaternion cogQ = Quaternion.AngleAxis(- theta * Mathf.Rad2Deg, Vector3.forward);
-            
+            Quaternion cogQ = Quaternion.AngleAxis(-theta * Mathf.Rad2Deg, Vector3.forward);
+
             GameObject cog = CreateBrick(cogPos.x, cogPos.y, cogPos.z);
             cog.transform.rotation = cogQ;
             FixedJoint joint = cog.AddComponent<FixedJoint>();
@@ -130,7 +131,7 @@ public class PhysicsFactory : MonoBehaviour {
 
     void CreateWall(int width, int height)
     {
-        
+
         for (int y = height - 1; y >= 0; y--)
         {
             for (int x = 0; x < width; x++)
@@ -139,9 +140,10 @@ public class PhysicsFactory : MonoBehaviour {
             }
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
 
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -176,7 +178,7 @@ public class PhysicsFactory : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.U))
         {
             RaycastHit rch;
-            GameObject mainCamera = GameObject.FindGameObjectWithTag("MainCamera");            
+            GameObject mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out rch, 100))
             {
                 Vector3 p = rch.point;
@@ -188,7 +190,7 @@ public class PhysicsFactory : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.I))
         {
             RaycastHit rch;
-            GameObject mainCamera = GameObject.FindGameObjectWithTag("MainCamera");            
+            GameObject mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out rch, 100, groundLM))
             {
                 Vector3 p = rch.point;
